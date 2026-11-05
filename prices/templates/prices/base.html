@@ -1,0 +1,28 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Market Price Watch{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'prices/style.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <a href="{% url 'prices:home' %}" class="logo">Market Price Watch</a>
+    <span class="tagline">Real prices from real markets</span>
+    <a href="{% url 'prices:report_price' %}" class="cta">Report a price</a>
+  </header>
+  <main class="container">
+    {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">Built with Django by David Peluola</footer>
+</body>
+</html>

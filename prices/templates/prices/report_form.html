@@ -1,0 +1,25 @@
+{% extends "prices/base.html" %}
+
+{% block title %}Report a price | Market Price Watch{% endblock %}
+
+{% block content %}
+<h1>Report a price</h1>
+<p>Saw a price at the market today? Share it so everyone knows.</p>
+
+<form method="post" enctype="multipart/form-data" class="card-form" novalidate>
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  {% for field in form %}
+  <div class="field{% if field.errors %} has-error{% endif %}">
+    {{ field.label_tag }}
+    {{ field }}
+    {% for error in field.errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <button type="submit">Submit price</button>
+</form>
+{% endblock %}

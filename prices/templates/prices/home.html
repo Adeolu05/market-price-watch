@@ -1,0 +1,40 @@
+{% extends "prices/base.html" %}
+
+{% block content %}
+<section>
+  <h1>Latest prices</h1>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Item</th><th>Market</th><th>Price</th><th>Reported</th></tr>
+      </thead>
+      <tbody>
+        {% for report in latest_reports %}
+        <tr>
+          <td><a href="{% url 'prices:item_detail' report.item.pk %}">{{ report.item }}</a></td>
+          <td>{{ report.market }}</td>
+          <td class="price">₦{{ report.price|floatformat:"0g" }}</td>
+          <td>{{ report.reported_at|timesince }} ago</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No prices reported yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Browse items</h2>
+  <ul class="item-grid">
+    {% for item in items %}
+    <li>
+      <a href="{% url 'prices:item_detail' item.pk %}">
+        <strong>{{ item.name }}</strong>
+        <span>{{ item.unit }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

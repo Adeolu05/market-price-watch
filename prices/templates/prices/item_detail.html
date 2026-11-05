@@ -1,0 +1,38 @@
+{% extends "prices/base.html" %}
+
+{% block title %}{{ item.name }} prices | Market Price Watch{% endblock %}
+
+{% block content %}
+<a href="{% url 'prices:home' %}" class="back">Back to all prices</a>
+<h1>{{ item.name }} <small>{{ item.unit }}</small></h1>
+
+{% if cheapest %}
+<div class="stats">
+  <div class="stat"><span>Lowest</span><strong>₦{{ stats.lowest|floatformat:"0g" }}</strong></div>
+  <div class="stat"><span>Average</span><strong>₦{{ stats.average|floatformat:"0g" }}</strong></div>
+  <div class="stat"><span>Highest</span><strong>₦{{ stats.highest|floatformat:"0g" }}</strong></div>
+</div>
+<p class="deal">Cheapest reported: <strong>{{ cheapest.market }}</strong> at ₦{{ cheapest.price|floatformat:"0g" }}</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Market</th><th>Price</th><th>Note</th><th>Photo</th><th>Reported</th></tr>
+    </thead>
+    <tbody>
+      {% for report in reports %}
+      <tr>
+        <td>{{ report.market }}</td>
+        <td class="price">₦{{ report.price|floatformat:"0g" }}</td>
+        <td>{{ report.note|default:"-" }}</td>
+        <td>{% if report.photo %}<a href="{{ report.photo.url }}" target="_blank" rel="noopener">View</a>{% else %}-{% endif %}</td>
+        <td>{{ report.reported_at|date:"j M Y, g:i a" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p>No prices reported for this item yet.</p>
+{% endif %}
+{% endblock %}
